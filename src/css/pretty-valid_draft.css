@@ -1,0 +1,23 @@
+/*! PrettyValid v0.1.0 */
+/**
+ * CSS Stylesheet for: PrettyValid
+ *
+ * Author: hEy @ codeinalab.com
+ *
+ * TOC:
+ * 
+ * Custom properties
+ * Plugins style override
+ * Base
+ * Layout
+ * * Headerl
+ * * Sections
+ * * Footer
+ * Media queries
+ * 
+ * @todo Add each module/section needed
+ * 
+ */
+.test-class {
+	color: red;
+}

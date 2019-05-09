@@ -3,7 +3,8 @@ module.exports = {
   optimize: true,
 
   modules: {
-    wrapper: false
+    wrapper: false, 
+    nameCleaner: path => path.replace(/^src\//, '')
   },
 
   plugins: {

@@ -20,7 +20,56 @@
 
     <h1>Pretty Valid</h1>
     
-    <!-- Some things should go here -->
+    <form action="contact.php" enctype="multipart/form-data" method="post" name="form-demo" id="form-demo" class="">
+
+    
+    <fieldset class="" id="fieldset-input-text">
+      <label for="input-text" class="">Text</label>
+      <input type="text" name="input-text" id="input-text" class="" required>
+    </fieldset>
+
+    <fieldset class="" id="fieldset-input-textarea">
+      <label for="input-textarea" class="">Text area</label>
+      <textarea name="input-textarea" id="input-textarea" cols="1" rows="4" class="" required></textarea>
+    </fieldset>
+
+    <fieldset class="" id="fieldset-input-select">
+      <label for="input-select" class="">Select</label>
+      <select name="input-select" id="input-select" class="" required>
+          <option value="">Nothing selected</option>
+          <option value="1">Option 1</option>
+          <option value="2">Option 2</option>
+      </select>
+    </fieldset>
+ 
+    <fieldset class="" id="fieldset-input-password">
+      <label for="input-password" class="">Password</label>
+      <input type="password" name="input-password" id="input-password" class="" required>
+    </fieldset>
+   
+    <fieldset class="" id="fieldset-input-file">
+      <label for="input-file" class="">File</label>
+      <input type="file" name="input-file" id="input-file" class="" required>
+    </fieldset>
+
+    <fieldset class="" id="fieldset-input-checkbox">
+      <label for="input-checkbox" class="">Checkbox (single)</label>
+      <input type="checkbox" name="input-checkbox" id="input-checkbox" class="" value="1" required>
+    </fieldset>
+
+    <fieldset class="" id="fieldset-input-radio">
+      <label for="input-radio" class="">Radio button (single)</label>
+      <input type="radio" name="input-radio" id="input-radio" class="" value="1" required>
+    </fieldset>
+
+    <fieldset class="">
+      <button type="submit" name="button-submit" id="button-submit" form="form-demo" class="">
+        Send 
+        <i class="fas fa-spinner fa-pulse hidden"></i>
+      </button>
+    </fieldset>
+
+  </form>
 
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
     <script src="js/pretty-valid.min.js"></script>

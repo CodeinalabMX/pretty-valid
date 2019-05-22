@@ -30,7 +30,7 @@
     /* Define private properties within the plugin' scope.
      * To avoid scope issues, assign'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
-    var this_plugin = this;
+    var this_plugin = this; //this is also the element attached to
     var private_var = 'private var';
     /* Use the default jQuery.extend utility to merge
      * default with with the ones set per instance.
@@ -38,6 +38,7 @@
      */
     var settings = $.extend({
       //* Plugin's default settings
+      
       default_setting: 'this is a default setting'
     }, custom_settings);
 
@@ -56,15 +57,29 @@
     
     //* Plugin's private functions
     /* Functions defined this way are accessible only within the plugin' scope */
-    var init = function() {
-      console.log('Plugin\'s initialization with a default setting: ' + settings.default_setting);
+    var init = function()
+    {
+      /* Attach event handler, replacing default browser validation behavior on submit */
+      this_plugin.attr('novalidate', 'novalidate').on('submit', function(e) {
+        e.preventDefault();
+        e.stopPropagation()
+          console.log('submit disabled');
+        validate();
+      });
+
       return this_plugin;
     };
+
+    var validate = function()
+    {
+      console.log('validate event handler');
+    }
 
     //* Plugin's public functions
     /* Expose functions by attaching them to 'this', or in this case 'plugin'
      * as we defined above */
-    this_plugin.public_function = function(param) {
+    this_plugin.public_function = function(param)
+    {
       //* Do something
       console.log('this is a public funtion with param:' + param);
     };

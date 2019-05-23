@@ -28,10 +28,11 @@
 
     //* Plugin' settings
     /* Define private properties within the plugin' scope.
-     * To avoid scope issues, assign'this' to 'this_plugin'
+     * To avoid scope issues, assign 'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
-    var this_plugin = this; //this is also the element attached to
+    var this_plugin = this; //this is also the element attached to */
     var private_var = 'private var';
+    var items, invalid_items, current_item;
     /* Use the default jQuery.extend utility to merge
      * default with with the ones set per instance.
      * This is the easiest way to have default options.
@@ -63,7 +64,6 @@
       this_plugin.attr('novalidate', 'novalidate').on('submit', function(e) {
         e.preventDefault();
         e.stopPropagation()
-          console.log('submit disabled');
         validate();
       });
 
@@ -72,7 +72,32 @@
 
     var validate = function()
     {
-      console.log('validate event handler');
+      /* Get all required elements and check for validity
+       *  */
+      items = this_plugin.find(':required, [data-required="required"]');
+      
+      if (items) {
+        invalid_tems = '';//$([]);
+        items.each(function()
+        {
+          item_validation($(this)) ? '' : invalid_items++;
+
+        });
+      }            
+      if (invalid_items.length) {
+        //validationResult = false;
+        //plugin.notificationShow();
+      } else {
+        //(plugin.settings.ajax) ? plugin._formAjaxSubmit() : plugin._formSubmit();
+      }
+
+    }
+
+    var item_validation = function(current_item)
+    {
+      /* Do here single item validations */
+      //console.log(current_item[0].validity.valid);
+      current_item.addClass('test-class');
     }
 
     //* Plugin's public functions

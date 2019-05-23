@@ -27,20 +27,38 @@
   $.fn.prettyValid = function(custom_settings) {
 
     //* Plugin' settings
-    /* Define private properties within the plugin' scope.
+    /* Define private variables within the plugin' scope.
      * To avoid scope issues, assign 'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
-    var this_plugin = this; //this is also the element attached to */
-    var private_var = 'private var';
+    var this_plugin = this; /* This is also the element attached to */
     var items, invalid_items, current_item;
     /* Use the default jQuery.extend utility to merge
-     * default with with the ones set per instance.
+     * default settings with with the ones set per instance.
      * This is the easiest way to have default options.
      */
     var settings = $.extend({
       //* Plugin's default settings
-      
-      default_setting: 'this is a default setting'
+      notification_wrapper = 'notification'; //* Global notification wrapper ID
+      notification_warning_class = 'warning';
+      notification_error_class = 'error';
+      notification_auto_hide = 8000; //* Boolean or milliseconds
+      notification_effetc = 'slide'; //* Notification show/hide effect slide/fade
+      success_message = 'EL mensaje ha sido enviado correctamente.';
+      warning_message = 'Verifica que hayas completado correctamente los campos señalados.';
+      error_message = '';
+      inputInvalidClass = 'is-invalid';
+      /* Enable send form data via ajax */
+      ajax = true; //* Boolean
+      ajax_method = 'POST'; //* POST/GET
+      ajax_url = 'ajax.php';
+      /* Enable google reCaptcha render
+       * Get the keys from the google reCaptcha admin console
+       * and the anguage code from https://developers.google.com/recaptcha/docs/language 
+       * reCaptcha error message is handled by the backend script */
+      g_recaptcha = true; //* Boolean
+      g_recaptcha_site_key = '6LcSBqUUAAAAANOdeoW7nod-ICnH0ycTTWlSgNlw'
+      g_reCaptchaLanguage = 'es-419'; //* 
+
     }, custom_settings);
 
     /* In order to create multiple instances

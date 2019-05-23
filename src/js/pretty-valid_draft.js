@@ -31,33 +31,35 @@
      * To avoid scope issues, assign 'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
     var this_plugin = this; /* This is also the element attached to */
-    var items, invalid_items, current_item;
+    var items, item, is_valid, auto_hide;
     /* Use the default jQuery.extend utility to merge
      * default settings with with the ones set per instance.
      * This is the easiest way to have default options.
      */
     var settings = $.extend({
       //* Plugin's default settings
-      notification_wrapper = 'notification'; //* Global notification wrapper ID
-      notification_warning_class = 'warning';
-      notification_error_class = 'error';
-      notification_auto_hide = 8000; //* Boolean or milliseconds
-      notification_effetc = 'slide'; //* Notification show/hide effect slide/fade
-      success_message = 'EL mensaje ha sido enviado correctamente.';
-      warning_message = 'Verifica que hayas completado correctamente los campos señalados.';
-      error_message = '';
-      inputInvalidClass = 'is-invalid';
+      notification_wrapper: 'notification', //* Global notification wrapper ID
+      notification_invalid_class: 'warning',
+      notification_valid_class: 'success',
+      notification_auto_hide: 8000, //* Boolean or milliseconds
+      notification_show_effect: 'slideDown', //* fadeIn/slideDown
+      notification_hide_effect: 'slideUp', //* fadeOut/slideUp
+      input_invalid_class: 'is-invalid',
+      input_valid_class: 'is-valid',
+      valid_message: 'El mensaje ha sido enviado correctamente.',
+      invalid_message: 'Verifica que hayas completado correctamente los campos señalados.',
+      error_message: 'Ocurrio un error al enviar tu mensaje.',
       /* Enable send form data via ajax */
-      ajax = true; //* Boolean
-      ajax_method = 'POST'; //* POST/GET
-      ajax_url = 'ajax.php';
+      ajax: true, //* Boolean
+      ajax_method: 'POST', //* POST/GET
+      ajax_url: 'ajax.php',
       /* Enable google reCaptcha render
        * Get the keys from the google reCaptcha admin console
        * and the anguage code from https://developers.google.com/recaptcha/docs/language 
        * reCaptcha error message is handled by the backend script */
-      g_recaptcha = true; //* Boolean
-      g_recaptcha_site_key = '6LcSBqUUAAAAANOdeoW7nod-ICnH0ycTTWlSgNlw'
-      g_reCaptchaLanguage = 'es-419'; //* 
+      g_recaptcha: true, //* Boolean
+      g_recaptcha_site_key: '6LcSBqUUAAAAANOdeoW7nod-ICnH0ycTTWlSgNlw',
+      g_reCaptchaLanguage: 'es-419', //* 
 
     }, custom_settings);
 
@@ -84,43 +86,85 @@
         e.stopPropagation()
         validate();
       });
-
       return this_plugin;
     };
 
     var validate = function()
     {
-      /* Get all required elements and check for validity
-       *  */
-      items = this_plugin.find(':required, [data-required="required"]');
-      
-      if (items) {
-        invalid_tems = '';//$([]);
-        items.each(function()
-        {
-          item_validation($(this)) ? '' : invalid_items++;
+      /* Get all required elements and check for validity */
+      items = this_plugin.find(':required');
+      items = $.grep(items, function(n)
+      {
+        $(n).removeClass(settings.input_invalid_class);
+        /* Keep items when validity.valid is false */
+        return !n.validity.valid;
+      });
 
-        });
-      }            
-      if (invalid_items.length) {
-        //validationResult = false;
-        //plugin.notificationShow();
+      (items.length) ? notification_show() : submit();
+    }
+
+    var submit = function()
+    {
+      /* Detach the previous .on event handler with .off */
+      (settings.ajax) ? submit_ajax() : this_plugin.off('submit').submit();
+    }
+
+    var submit_ajax = function()
+    {
+      console.log('submit via ajax');
+    }
+
+    var notification_show = function()
+    {
+      $.each(items, function(i)
+      {
+        $(this).addClass(settings.input_invalid_class);
+      })
+
+      if (0 == $('#' + settings.notification_wrapper).length) {
+        /* Make sure there is an item to wrap the message */
+        $('<div id="' + settings.notification_wrapper + '" class="' + settings.notification_wrapper + '"></div>').prependTo('body');
+      }
+      item = $('#' + settings.notification_wrapper);
+      item.addClass(settings.notification_invalid_class)
+                 .html(settings.invalid_message);
+      //* Blink if it's already there
+      if (item.is(':visible')) {
+        item.fadeTo('fast', 0.5).fadeTo('slow', 1.0);
       } else {
-        //(plugin.settings.ajax) ? plugin._formAjaxSubmit() : plugin._formSubmit();
+        item[settings.notification_show_effect]();
+        item.on('click', function(e)
+        {
+          notification_hide();
+        });
+
+        if (settings.notification_auto_hide) {
+          auto_hide = setTimeout(function() 
+        {
+          notification_hide();
+          }, settings.notification_auto_hide);
+        }
+        
       }
 
     }
 
-    var item_validation = function(current_item)
+    var notification_hide = function()
     {
-      /* Do here single item validations */
-      //console.log(current_item[0].validity.valid);
-      current_item.addClass('test-class');
+      $('#' + settings.notification_wrapper)[settings.notification_hide_effect]('fast');
+        clearTimeout(auto_hide);
     }
 
+    var item_validation = function(item)
+    {
+      return item[0].validity.valid;
+      item.addClass(settings.invalid_class);
+    }
+
+
     //* Plugin's public functions
-    /* Expose functions by attaching them to 'this', or in this case 'plugin'
-     * as we defined above */
+    /* Expose functions by attaching them to 'this'
+     * or in this case 'this_plugin' former defined */
     this_plugin.public_function = function(param)
     {
       //* Do something

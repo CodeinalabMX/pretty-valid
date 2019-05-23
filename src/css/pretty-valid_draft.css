@@ -6,18 +6,83 @@
  *
  * TOC:
  * 
- * Custom properties
- * Plugins style override
- * Base
- * Layout
- * * Headerl
- * * Sections
- * * Footer
- * Media queries
+ * Reset
+ * Color scheme
+ * 
  * 
  * @todo Add each module/section needed
  * 
  */
+/*! Reset */
+* {
+  box-sizing: border-box;
+}
+/*! Form elements */
 .is-invalid {
-	border: 1px solid red;
+	border-color: red;
+}
+/*! * Notification */
+.notification {
+  position: relative;
+  z-index: 10001;
+  display: none;
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  /*cursor: pointer;*/
+  border: 1px solid #1a1a1a; 
+  background-color: rgb(251, 251, 251);
+  border-radius: 0;
+}
+.notification:not(:empty) {
+  
+}
+.check-notification:checked + .notification {
+  display: none;
+}
+.notification.slide, 
+.notification.fade {
+  position: fixed;
+  width: 98vw;
+  top: 1vw;
+  left: 1vw;
+  transition: all .4s ease-out;
+}
+.check-notification.slide:checked + .notification.slide {
+  /* Overrides default behavior display:none; */
+  display: block;
+  top: -25vw;
+}
+.notification.fade {
+  opacity: 1;
+}
+.check-notification.fade:checked + .notification.fade {
+  /* Overrides default behavior display:none; */
+  display: block;
+  opacity: 0;
+  /* Prevent element to responde to click events */
+  visibility: hidden;
+}
+.notification label {
+  cursor: pointer;
+}
+.information {
+  color: #00529b;
+  border-color: #00529b;
+  background-color: rgb(153, 207, 255);
+}
+.success {
+  color: #4f8a10;
+  border-color: #4f8a10;
+  background-color: rgb(205, 244, 164);
+}
+.warning {
+  color: #9f6000;
+  border-color: #9f6000;
+  background-color: rgb(255, 214, 153);
+}
+.error {
+  color: #d8000c;
+  border-color: #d8000c;
+  background-color: rgb(255, 153, 158);
 }

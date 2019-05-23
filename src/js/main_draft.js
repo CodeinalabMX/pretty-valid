@@ -5,7 +5,8 @@ $(document).ready(function()
 {
 
 	var instance = $('#form-demo').prettyValid({
-		default_setting: 'effin\ custom'
-	}).append('test chain functions.');
+		notification_show_effect: 'fadeIn',
+		notification_hide_effect: 'fadeOut'
+	});
 
 });

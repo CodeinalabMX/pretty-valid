@@ -111,7 +111,27 @@
 
     var submit_ajax = function()
     {
-      console.log('submit via ajax');
+      
+      $.ajax({
+        type: settings.ajax_method,
+        url: settings.ajax_url,
+        data: this_plugin.serializeArray(),
+        dataType: 'json',
+        success: function(data)
+        {
+          if (data.status){
+            notification_show();
+            this_plugin.clearForm();
+          } else {
+            notification_show();
+          }
+        },
+        error: function(data)
+        {
+          notification_show();
+        }
+      });
+
     }
 
     var notification_show = function()

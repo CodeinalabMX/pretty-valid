@@ -133,7 +133,8 @@
         },
         error: function(data)
         {
-          notification_show();
+          notification_show(settings.notification_invalid_class, 
+                            error_message);
         }
       });
 

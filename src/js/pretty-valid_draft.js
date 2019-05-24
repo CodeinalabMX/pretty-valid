@@ -31,7 +31,7 @@
      * To avoid scope issues, assign 'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
     var this_plugin = this; /* This is also the element attached to */
-    var items, item, is_valid, auto_hide;
+    var items, item, auto_hide;
     /* Use the default jQuery.extend utility to merge
      * default settings with with the ones set per instance.
      * This is the easiest way to have default options.
@@ -48,7 +48,7 @@
       input_valid_class: 'is-valid',
       valid_message: 'El mensaje ha sido enviado correctamente.',
       invalid_message: 'Verifica que hayas completado correctamente los campos señalados.',
-      error_message: 'Ocurrio un error al enviar tu mensaje.',
+      error_message: 'Ocurrio un error.',
       /* Enable send form data via ajax */
       ajax: true, //* Boolean
       ajax_method: 'POST', //* POST/GET
@@ -100,7 +100,8 @@
         return !n.validity.valid;
       });
 
-      (items.length) ? notification_show() : submit();
+      (items.length) ? notification_show(settings.notification_invalid_class, 
+        settings.invalid_message) : submit();
     }
 
     var submit = function()
@@ -120,10 +121,14 @@
         success: function(data)
         {
           if (data.status){
-            notification_show();
-            this_plugin.clearForm();
+            message = (data.message) ? data.message : settings.valid_message;
+            notification_show(settings.notification_valid_class, 
+                              message);
+            this_plugin[0].reset();
           } else {
-            notification_show();
+            message = (data.message) ? data.message : settings.error_message;
+            notification_show(settings.notification_invalid_class, 
+                              message);
           }
         },
         error: function(data)
@@ -134,7 +139,7 @@
 
     }
 
-    var notification_show = function()
+    var notification_show = function(type, message)
     {
       $.each(items, function(i)
       {
@@ -146,8 +151,8 @@
         $('<div id="' + settings.notification_wrapper + '" class="' + settings.notification_wrapper + '"></div>').prependTo('body');
       }
       item = $('#' + settings.notification_wrapper);
-      item.addClass(settings.notification_invalid_class)
-                 .html(settings.invalid_message);
+      item.addClass(type)
+                 .html(message);
       //* Blink if it's already there
       if (item.is(':visible')) {
         item.fadeTo('fast', 0.5).fadeTo('slow', 1.0);

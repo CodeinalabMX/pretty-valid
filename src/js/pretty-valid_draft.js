@@ -1,7 +1,7 @@
-/*! Pretty Valid v0.1.0 http://codeinalabmx.github.io/pretty-valid License: MIT */
+/*! Pretty Valid v0.2.0 http://codeinalabmx.github.io/pretty-valid License: MIT */
 
 /*
- * Pretty Valid v0.1.0
+ * Pretty Valid v0.2.0
  *
  * Custom HTML5 form validation dialogues
  * http://codeinalabmx.github.io/pretty-valid

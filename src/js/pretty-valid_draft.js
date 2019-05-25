@@ -38,12 +38,17 @@
      */
     var settings = $.extend({
       //* Plugin's default settings
+      notification: {
+        wrapper: '',
+        id: 'notification',
+        class: 'notification',
+        invalid_class: 'warning',
+        valid_class: 'success',
+        auto_hide: 8000,
+        show_effect: 'slideDown', //* fadeIn/slideDown
+        hide_effect: 'slideUp', //* fadeOut/slideUp
+      },
       notification_wrapper: 'notification', //* Global notification wrapper ID
-      notification_invalid_class: 'warning',
-      notification_valid_class: 'success',
-      notification_auto_hide: 8000, //* Boolean or milliseconds
-      notification_show_effect: 'slideDown', //* fadeIn/slideDown
-      notification_hide_effect: 'slideUp', //* fadeOut/slideUp
       input_invalid_class: 'is-invalid',
       input_valid_class: 'is-valid',
       valid_message: 'El mensaje ha sido enviado correctamente.',
@@ -145,15 +150,18 @@
       $.each(items, function(i)
       {
         $(this).addClass(settings.input_invalid_class);
-      })
+      });
 
-      if (0 == $('#' + settings.notification_wrapper).length) {
-        /* Make sure there is an item to wrap the message */
-        $('<div id="' + settings.notification_wrapper + '" class="' + settings.notification_wrapper + '"></div>').prependTo('body');
+      /* Make sure there is an item to wrap the message */
+      if (0 == $('#' + settings.notification.wrapper.id).length) {
+        item = $('<div/>').attr('id', settings.notification.id)
+                   .attr('class', settings.notification.class)
+                   .prependTo('body');
+      } else {
+        item = $('#' + settings.notification.wrapper.id);
       }
-      item = $('#' + settings.notification_wrapper);
       item.addClass(type)
-                 .html(message);
+          .html(message);
       //* Blink if it's already there
       if (item.is(':visible')) {
         item.fadeTo('fast', 0.5).fadeTo('slow', 1.0);

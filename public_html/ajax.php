@@ -5,7 +5,10 @@
 	if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
 		/* Get POST/GET values
 		 * eg. $_REQUEST['input_name']; */
-		$some_input = $_REQUEST['input-text'];
+		$some_input = '';
+		foreach ($_POST as $key => $value) {
+			$some_input.= $key.': ' . $value . ' / ';
+		}
 		/* Validate/Sanitize data */
 		/* Handle your data
 		 * Send email, write to DB, or whatever */

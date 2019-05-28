@@ -63,8 +63,10 @@
        * and the anguage code from https://developers.google.com/recaptcha/docs/language 
        * reCaptcha error message is handled by the backend script */
       g_recaptcha: true, //* Boolean
+      g_recaptcha_class: 'g-recaptcha-wrapper',
       g_recaptcha_site_key: '6LcSBqUUAAAAANOdeoW7nod-ICnH0ycTTWlSgNlw',
-      g_reCaptchaLanguage: 'es-419', //* 
+      g_recaptcha_language: 'es-419',
+      g_recaptcha_action: 'homepage',
 
     }, custom_settings);
 
@@ -91,6 +93,9 @@
         e.stopPropagation()
         validate();
       });
+        if (settings.ajax) {
+          grecaptcha_init();
+        }
       return this_plugin;
     };
 
@@ -103,11 +108,48 @@
         $(n).removeClass(settings.input_invalid_class);
         /* Keep items when validity.valid is false */
         return !n.validity.valid;
+
+
       });
 
       (items.length) ? notification_show(settings.notification.invalid_class, 
         settings.invalid_message) : submit();
     }
+
+    var grecaptcha_init = function()
+    {
+      /* Check if there is more than one reCaptcha wrapper */
+      g_recaptcha_wrapper = 'g-recaptcha-wrapper-' + $('.' + settings.g_recaptcha_class).length;
+
+
+      if (0 === $('#' + g_recaptcha_wrapper).length) {
+        item = $('<div/>').attr('id', g_recaptcha_wrapper)
+                   .attr('class', settings.g_recaptcha_class)
+                   .appendTo(this_plugin[0]);
+      } else {
+        item = $('#' + g_recaptcha_wrapper);
+      }
+
+      $.getScript('https://www.google.com/recaptcha/api.js?render=explicit&hl=' + settings.g_recaptcha_language, function()
+      {
+        grecaptcha.ready(function() {
+          g_recaptcha_id = grecaptcha.render(g_recaptcha_wrapper, 
+          {
+            'sitekey': settings.g_recaptcha_site_key,
+            'size': 'invisible'
+          });
+          grecaptcha.execute(g_recaptcha_id, {action: settings.g_recaptcha_action}).then(function(token)
+          {                       
+            $('#g-recaptcha-response').val(token);
+          });
+        });
+
+      });
+
+      
+
+    }
+    
 
     var submit = function()
     {

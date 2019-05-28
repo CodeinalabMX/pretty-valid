@@ -36,19 +36,19 @@
      * default settings with with the ones set per instance.
      * This is the easiest way to have default options.
      */
-    var settings = $.extend({
+    var settings = $.extend(true, {
       //* Plugin's default settings
       notification: {
-        wrapper: '',
-        id: 'notification',
-        class: 'notification',
+        wrapper: {
+          id: 'notification',
+          class: 'notification',
+        },
         invalid_class: 'warning',
         valid_class: 'success',
         auto_hide: 8000,
         show_effect: 'slideDown', //* fadeIn/slideDown
         hide_effect: 'slideUp', //* fadeOut/slideUp
       },
-      notification_wrapper: 'notification', //* Global notification wrapper ID
       input_invalid_class: 'is-invalid',
       input_valid_class: 'is-valid',
       valid_message: 'El mensaje ha sido enviado correctamente.',
@@ -105,7 +105,7 @@
         return !n.validity.valid;
       });
 
-      (items.length) ? notification_show(settings.notification_invalid_class, 
+      (items.length) ? notification_show(settings.notification.invalid_class, 
         settings.invalid_message) : submit();
     }
 
@@ -127,18 +127,18 @@
         {
           if (data.status){
             message = (data.message) ? data.message : settings.valid_message;
-            notification_show(settings.notification_valid_class, 
+            notification_show(settings.notification.valid_class, 
                               message);
             this_plugin[0].reset();
           } else {
             message = (data.message) ? data.message : settings.error_message;
-            notification_show(settings.notification_invalid_class, 
+            notification_show(settings.notification.invalid_class, 
                               message);
           }
         },
         error: function(data)
         {
-          notification_show(settings.notification_invalid_class, 
+          notification_show(settings.notification.invalid_class, 
                             error_message);
         }
       });
@@ -153,9 +153,9 @@
       });
 
       /* Make sure there is an item to wrap the message */
-      if (0 == $('#' + settings.notification.wrapper.id).length) {
-        item = $('<div/>').attr('id', settings.notification.id)
-                   .attr('class', settings.notification.class)
+      if (0 === $('#' + settings.notification.wrapper.id).length) {
+        item = $('<div/>').attr('id', settings.notification.wrapper.id)
+                   .attr('class', settings.notification.wrapper.class)
                    .prependTo('body');
       } else {
         item = $('#' + settings.notification.wrapper.id);
@@ -166,17 +166,17 @@
       if (item.is(':visible')) {
         item.fadeTo('fast', 0.5).fadeTo('slow', 1.0);
       } else {
-        item[settings.notification_show_effect]();
+        item[settings.notification.show_effect]();
         item.on('click', function(e)
         {
           notification_hide();
         });
 
-        if (settings.notification_auto_hide) {
+        if (settings.notification.auto_hide) {
           auto_hide = setTimeout(function() 
         {
           notification_hide();
-          }, settings.notification_auto_hide);
+          }, settings.notification.auto_hide);
         }
         
       }
@@ -185,14 +185,14 @@
 
     var notification_hide = function()
     {
-      $('#' + settings.notification_wrapper)[settings.notification_hide_effect]('fast');
+      $('#' + settings.notification.wrapper.id)[settings.notification.hide_effect]('fast');
         clearTimeout(auto_hide);
     }
 
     var item_validation = function(item)
     {
       return item[0].validity.valid;
-      item.addClass(settings.invalid_class);
+      item.addClass(settings.notification.invalid_class);
     }
 
 

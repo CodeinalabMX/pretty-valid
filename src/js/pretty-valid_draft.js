@@ -40,36 +40,36 @@
       //* Plugin's default settings
       notification: {
         wrapper: {
-          id: 'notification', //* String
-          class: 'notification', //* String
+          id: 'notification', // String
+          class: 'notification', // String
         },
         message: {
-          valid: 'Everything looks good.', //* String
-          invalid: 'Something is missing.', //* String
-          error: 'An error ocurred.', //* String
+          valid: 'Everything looks good.', // String
+          invalid: 'Something is missing.', // String
+          error: 'An error ocurred.', // String
         },
-        invalid_class: 'warning', //* String
-        valid_class: 'success', //* String
-        auto_hide: 8000, //* Boolean false/Milliseconds
-        show_effect: 'slideDown', //* fadeIn/slideDown
-        hide_effect: 'slideUp', //* fadeOut/slideUp
+        invalid_class: 'warning', // String
+        valid_class: 'success', // String
+        auto_hide: 8000, // Boolean false/Milliseconds
+        show_effect: 'slideDown', // fadeIn/slideDown
+        hide_effect: 'slideUp', // fadeOut/slideUp
       },
-      input_invalid_class: 'is-invalid', //* String
-      input_valid_class: 'is-valid', //* String
+      input_invalid_class: 'is-invalid', // String
+      input_valid_class: 'is-valid', // String
       /* Enable send form data via ajax */
       ajax: {
-        url: '', //* String
-        method: 'POST', //* POST/GET
+        url: '', // String
+        method: 'POST', // POST/GET
       },
       /* Enable google reCaptcha render
        * Get the keys from the google reCaptcha admin console
        * and the anguage code from https://developers.google.com/recaptcha/docs/language 
        * reCaptcha error message is handled by the backend script */
       g_recaptcha: {
-        site_key: '', //* String
-        class: 'g-recaptcha-wrapper', //* String
-        language: 'es-419', //* String
-        action: 'homepage', //* String
+        site_key: '', // String
+        class: 'g-recaptcha-wrapper', // String
+        language: 'es-419', // String
+        action: 'homepage', // String
       },
     }, custom_settings);
 

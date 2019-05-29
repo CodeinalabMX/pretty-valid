@@ -51,8 +51,8 @@
         invalid_class: 'warning', // String
         valid_class: 'success', // String
         auto_hide: 8000, // Boolean false/Milliseconds
-        show_effect: 'slideDown', // fadeIn/slideDown
-        hide_effect: 'slideUp', // fadeOut/slideUp
+        show_effect: 'fadeIn', // fadeIn/slideDown
+        hide_effect: 'fadeOut', // fadeOut/slideUp
       },
       input_invalid_class: 'is-invalid', // String
       input_valid_class: 'is-valid', // String

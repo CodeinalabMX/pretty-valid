@@ -19,7 +19,11 @@
 }
 /*! Form elements */
 .is-invalid {
-	border-color: red;
+	border: 1px solid red;
+}
+[type=checkbox].is-invalid, 
+[type=radio].is-invalid {
+  box-shadow: 0 0 0 1px red;
 }
 /*! * Notification */
 .notification {

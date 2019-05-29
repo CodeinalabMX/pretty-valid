@@ -245,13 +245,21 @@
     //* Plugin's public functions
     /* Expose functions by attaching them to 'this'
      * or in this case 'this_plugin' former defined */
-    this_plugin.public_function = function(param)
+    this_plugin.notification_show = function(type, message)
     {
 
-      //* Do something
-      console.log('this is a public funtion with param:' + param);
+      console.log('test');
+      notification_show(type, message);
 
-    };
+    }
+
+    this_plugin.notification_hide = function()
+    {
+
+      notification_hide();
+
+    }
+
 
 
     //* Plugin's initialization

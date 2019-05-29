@@ -12,7 +12,7 @@
 		/* Validate/Sanitize data */
 		$ip = $_SERVER['REMOTE_ADDR'];
 		$g_recaptcha_response = $_POST['g-recaptcha-response'];
-		$g_recaptcha_secret = '6LcSBqUUAAAAAGxFVGdJzCO8jDJWxQNXvq6nLlXt';
+		$g_recaptcha_secret = '';
 		if (recaptcha_validation('localhost', 
 														 'homepage', 
 														 $g_recaptcha_secret, 

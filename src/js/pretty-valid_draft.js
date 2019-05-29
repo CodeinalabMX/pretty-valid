@@ -40,34 +40,37 @@
       //* Plugin's default settings
       notification: {
         wrapper: {
-          id: 'notification',
-          class: 'notification',
+          id: 'notification', //* String
+          class: 'notification', //* String
         },
-        invalid_class: 'warning',
-        valid_class: 'success',
-        auto_hide: 8000,
+        message: {
+          valid: 'Everything looks good.', //* String
+          invalid: 'Something is missing.', //* String
+          error: 'An error ocurred.', //* String
+        },
+        invalid_class: 'warning', //* String
+        valid_class: 'success', //* String
+        auto_hide: 8000, //* Boolean false/Milliseconds
         show_effect: 'slideDown', //* fadeIn/slideDown
         hide_effect: 'slideUp', //* fadeOut/slideUp
       },
-      input_invalid_class: 'is-invalid',
-      input_valid_class: 'is-valid',
-      valid_message: 'El mensaje ha sido enviado correctamente.',
-      invalid_message: 'Verifica que hayas completado correctamente los campos señalados.',
-      error_message: 'Ocurrio un error.',
+      input_invalid_class: 'is-invalid', //* String
+      input_valid_class: 'is-valid', //* String
       /* Enable send form data via ajax */
-      ajax: true, //* Boolean
-      ajax_method: 'POST', //* POST/GET
-      ajax_url: 'ajax.php',
+      ajax: {
+        url: '', //* String
+        method: 'POST', //* POST/GET
+      },
       /* Enable google reCaptcha render
        * Get the keys from the google reCaptcha admin console
        * and the anguage code from https://developers.google.com/recaptcha/docs/language 
        * reCaptcha error message is handled by the backend script */
-      g_recaptcha: false, //* Boolean
-      g_recaptcha_site_key: '',
-      g_recaptcha_class: 'g-recaptcha-wrapper',
-      g_recaptcha_language: 'es-419',
-      g_recaptcha_action: 'homepage',
-
+      g_recaptcha: {
+        site_key: '', //* String
+        class: 'g-recaptcha-wrapper', //* String
+        language: 'es-419', //* String
+        action: 'homepage', //* String
+      },
     }, custom_settings);
 
     /* In order to create multiple instances
@@ -76,7 +79,7 @@
      * return 'this_plugin' to allow chaining methods. */
     if (this_plugin.length > 1){
       this_plugin.each(function() {
-        $(this_plugin).prettyValid(customOptions)
+        $(this_plugin).prettyValid(custom_settings)
       });
       return this_plugin;
     }
@@ -87,20 +90,23 @@
     /* Functions defined this way are accessible only within the plugin' scope */
     var init = function()
     {
+
       /* Attach event handler, replacing default browser validation behavior on submit */
       this_plugin.attr('novalidate', 'novalidate').on('submit', function(e) {
         e.preventDefault();
         e.stopPropagation()
         validate();
       });
-        if (settings.ajax) {
-          grecaptcha_init();
-        }
-      return this_plugin;
+      if (settings.g_recaptcha.site_key) {
+        g_recaptcha_init();
+      }
+
     };
+
 
     var validate = function()
     {
+
       /* Get all required elements and check for validity */
       items = this_plugin.find(':required');
       items = $.grep(items, function(n)
@@ -108,72 +114,69 @@
         $(n).removeClass(settings.input_invalid_class);
         /* Keep items when validity.valid is false */
         return !n.validity.valid;
-
-
       });
 
       (items.length) ? notification_show(settings.notification.invalid_class, 
-        settings.invalid_message) : submit();
+        settings.notification.message.invalid) : submit();
+
     }
 
-    var grecaptcha_init = function()
+
+    var g_recaptcha_init = function()
     {
+
       /* Check if there is more than one reCaptcha wrapper */
-      g_recaptcha_wrapper = 'g-recaptcha-wrapper-' + $('.' + settings.g_recaptcha_class).length;
-
-
+      g_recaptcha_wrapper = 'g-recaptcha-wrapper-' + $('.' + settings.g_recaptcha.class).length;
       if (0 === $('#' + g_recaptcha_wrapper).length) {
         item = $('<div/>').attr('id', g_recaptcha_wrapper)
-                   .attr('class', settings.g_recaptcha_class)
+                   .attr('class', settings.g_recaptcha.class)
                    .appendTo(this_plugin[0]);
       } else {
         item = $('#' + g_recaptcha_wrapper);
       }
-
-      $.getScript('https://www.google.com/recaptcha/api.js?render=explicit&hl=' + settings.g_recaptcha_language, function()
+      $.getScript('https://www.google.com/recaptcha/api.js?render=explicit&hl=' + settings.g_recaptcha.language, function()
       {
         grecaptcha.ready(function() {
           g_recaptcha_id = grecaptcha.render(g_recaptcha_wrapper, 
           {
-            'sitekey': settings.g_recaptcha_site_key,
+            'sitekey': settings.g_recaptcha.site_key,
             'size': 'invisible'
           });
-          grecaptcha.execute(g_recaptcha_id, {action: settings.g_recaptcha_action}).then(function(token)
+          grecaptcha.execute(g_recaptcha_id, {action: settings.g_recaptcha.action}).then(function(token)
           {                       
             $('#g-recaptcha-response').val(token);
           });
         });
-
       });
-
-      
 
     }
     
 
     var submit = function()
     {
+
       /* Detach the previous .on event handler with .off */
-      (settings.ajax) ? submit_ajax() : this_plugin.off('submit').submit();
+      (settings.ajax.url) ? submit_ajax() : this_plugin.off('submit').submit();
+    
     }
 
     var submit_ajax = function()
     {
       
       $.ajax({
-        type: settings.ajax_method,
-        url: settings.ajax_url,
+        type: settings.ajax.method,
+        url: settings.ajax.url,
         data: this_plugin.serializeArray(),
         dataType: 'json',
         success: function(data)
         {
           if (data.status){
-            message = (data.message) ? data.message : settings.valid_message;
+            message = (data.message) ? data.message : settings.notification.message.valid;
             notification_show(settings.notification.valid_class, 
                               message);
             this_plugin[0].reset();
           } else {
-            message = (data.message) ? data.message : settings.error_message;
+            message = (data.message) ? data.message : settings.notification.message.error;
             notification_show(settings.notification.invalid_class, 
                               message);
           }
@@ -181,7 +184,7 @@
         error: function(data)
         {
           notification_show(settings.notification.invalid_class, 
-                            error_message);
+                            settings.notification.message.error);
         }
       });
 
@@ -189,11 +192,11 @@
 
     var notification_show = function(type, message)
     {
+
       $.each(items, function(i)
       {
         $(this).addClass(settings.input_invalid_class);
       });
-
       /* Make sure there is an item to wrap the message */
       if (0 === $('#' + settings.notification.wrapper.id).length) {
         item = $('<div/>').attr('id', settings.notification.wrapper.id)
@@ -202,8 +205,7 @@
       } else {
         item = $('#' + settings.notification.wrapper.id);
       }
-      item.addClass(type)
-          .html(message);
+      item.addClass(type).html(message);
       //* Blink if it's already there
       if (item.is(':visible')) {
         item.fadeTo('fast', 0.5).fadeTo('slow', 1.0);
@@ -213,23 +215,25 @@
         {
           notification_hide();
         });
-
-        if (settings.notification.auto_hide) {
+        if (!$.isNumeric(settings.notification.auto_hide)) {
           auto_hide = setTimeout(function() 
         {
           notification_hide();
           }, settings.notification.auto_hide);
         }
-        
       }
 
     }
 
+
     var notification_hide = function()
     {
+
       $('#' + settings.notification.wrapper.id)[settings.notification.hide_effect]('fast');
         clearTimeout(auto_hide);
+
     }
+
 
     var item_validation = function(item)
     {
@@ -243,9 +247,12 @@
      * or in this case 'this_plugin' former defined */
     this_plugin.public_function = function(param)
     {
+
       //* Do something
       console.log('this is a public funtion with param:' + param);
+
     };
+
 
     //* Plugin's initialization
     return init();

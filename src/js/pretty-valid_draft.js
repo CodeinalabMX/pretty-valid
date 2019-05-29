@@ -62,9 +62,9 @@
        * Get the keys from the google reCaptcha admin console
        * and the anguage code from https://developers.google.com/recaptcha/docs/language 
        * reCaptcha error message is handled by the backend script */
-      g_recaptcha: true, //* Boolean
+      g_recaptcha: false, //* Boolean
+      g_recaptcha_site_key: '',
       g_recaptcha_class: 'g-recaptcha-wrapper',
-      g_recaptcha_site_key: '6LcSBqUUAAAAANOdeoW7nod-ICnH0ycTTWlSgNlw',
       g_recaptcha_language: 'es-419',
       g_recaptcha_action: 'homepage',
 

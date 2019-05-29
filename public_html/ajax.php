@@ -7,6 +7,7 @@
 
 		$handle_result = false;
 		$handle_message = 'Nothing happened.';
+		
 		/* Get POST/GET values
 		 * eg. $_REQUEST['input_name']; */
 		$ip = $_SERVER['REMOTE_ADDR'];

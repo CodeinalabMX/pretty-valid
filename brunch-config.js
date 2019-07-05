@@ -10,16 +10,18 @@ module.exports = {
   plugins: {
     
     terser: {
-      ignored: /\.mins\./,
+      /* Use ignored to skip files from process
+       * keep in mind that terser runs on files created by joinTo */
+      //* ignored: /[regex]/,
       output: {
         comments: /^!/
       }
     },
 
     cleancss: {
-      ignored: /\.mins\./,
+      //ignored: /[regex]/,
       level: 2,
-      specialComments: 'all'
+      //specialComments: 1
     }
 
   },

@@ -51,6 +51,8 @@
         invalid_class: 'warning', // String
         valid_class: 'success', // String
         auto_hide: 8000, // Boolean false/Milliseconds
+        effect: 'fade', // String fade/slide
+        // @todo show/hide effect should be generated from notification.effect setting 
         show_effect: 'fadeIn', // fadeIn/slideDown
         hide_effect: 'fadeOut', // fadeOut/slideUp
       },
@@ -202,7 +204,10 @@
       });
       /* Make sure there is an item to wrap the message */
       if (0 === $('#' + this_plugin[0].id + ' .' + settings.notification.wrapper.class).length) {
-        item = $('<div/>').attr('class', settings.notification.wrapper.class).prependTo(this_plugin);
+        item = $('<div/>');
+        item.addClass(settings.notification.wrapper.class)
+            .addClass(settings.notification.effect)
+            .prependTo(this_plugin);
       } else {
         item = $('#' + this_plugin[0].id + ' .' + settings.notification.wrapper.class);
       }

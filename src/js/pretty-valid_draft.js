@@ -1,4 +1,4 @@
-/*! Pretty Valid v0.4.0 http://codeinalabmx.github.io/pretty-valid License: MIT */
+/*! Pretty Valid v0.4.0 http://codeinalabmx.github.io/pretty-valid */
 
 /*
  * Pretty Valid v0.4.0
@@ -217,7 +217,6 @@
         item.removeClass('success warning error information')
             .addClass(type)
             .html(message)
-            .delay(500)
             .fadeTo('fast', 0.5)
             .fadeTo('slow', 1.0);
       } else {

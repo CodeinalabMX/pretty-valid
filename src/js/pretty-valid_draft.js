@@ -70,6 +70,7 @@
         class: 'g-recaptcha-wrapper', // String
         language: 'es-419', // String
         action: 'homepage', // String
+        badge: 'inline', // String bottomright bottomleft inline
       },
     }, custom_settings);
 
@@ -141,7 +142,8 @@
           g_recaptcha_id = grecaptcha.render(g_recaptcha_wrapper, 
           {
             'sitekey': settings.g_recaptcha.site_key,
-            'size': 'invisible'
+            'size': 'invisible',
+            'badge': settings.g_recaptcha.badge,
           });
           grecaptcha.execute(g_recaptcha_id, {action: settings.g_recaptcha.action}).then(function(token)
           {                       

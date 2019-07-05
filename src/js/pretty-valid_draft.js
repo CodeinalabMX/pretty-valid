@@ -77,11 +77,11 @@
      * of the plugin attached to different DOM elements
      * loop through each of the elements 
      * return 'this_plugin' to allow chaining methods. */
-    if (this_plugin.length > 1){
-      this_plugin.each(function() {
-        $(this_plugin).prettyValid(custom_settings)
+    if (this.length > 1){
+      this.each(function() {
+        $(this).prettyValid(custom_settings)
       });
-      return this_plugin;
+      return this;
     }
 
     //* Plugin's logic
@@ -100,6 +100,7 @@
       if (settings.g_recaptcha.site_key) {
         g_recaptcha_init();
       }
+      return this_plugin;
 
     };
 
@@ -198,19 +199,22 @@
         $(this).addClass(settings.input_invalid_class);
       });
       /* Make sure there is an item to wrap the message */
-      if (0 === $('#' + settings.notification.wrapper.id).length) {
-        item = $('<div/>').attr('id', settings.notification.wrapper.id)
-                   .attr('class', settings.notification.wrapper.class)
-                   .prependTo('body');
+      if (0 === $('#' + this_plugin[0].id + ' .' + settings.notification.wrapper.class).length) {
+        item = $('<div/>').attr('class', settings.notification.wrapper.class).prependTo(this_plugin);
       } else {
-        item = $('#' + settings.notification.wrapper.id);
+        item = $('#' + this_plugin[0].id + ' .' + settings.notification.wrapper.class);
       }
-      item.addClass(type).html(message);
+
       //* Blink if it's already there
       if (item.is(':visible')) {
-        item.fadeTo('fast', 0.5).fadeTo('slow', 1.0);
+        item.removeClass('success warning error information')
+            .addClass(type)
+            .html(message)
+            .delay(500)
+            .fadeTo('fast', 0.5)
+            .fadeTo('slow', 1.0);
       } else {
-        item[settings.notification.show_effect]();
+        item.addClass(type).html(message)[settings.notification.show_effect]();
         item.on('click', function(e)
         {
           notification_hide();
@@ -229,7 +233,7 @@
     var notification_hide = function()
     {
 
-      $('#' + settings.notification.wrapper.id)[settings.notification.hide_effect]('fast');
+      $('#' + this_plugin[0].id + ' .' + settings.notification.wrapper.class)[settings.notification.hide_effect]('fast');
         clearTimeout(auto_hide);
 
     }
@@ -248,7 +252,6 @@
     this_plugin.notification_show = function(type, message)
     {
 
-      console.log('test');
       notification_show(type, message);
 
     }

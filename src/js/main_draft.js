@@ -14,6 +14,7 @@ $(document).ready(function()
 	});
 	instance.notification_show('success', 'This is a test');
 
+	/*
 	let instance_1 = $('#form-demo-1').prettyValid({
 		ajax: {
 			url: 'ajax.php',
@@ -24,5 +25,6 @@ $(document).ready(function()
 	});
 
 	instance_1.notification_show('information', 'This is another test');
+	*/
 
 });

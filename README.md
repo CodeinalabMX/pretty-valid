@@ -1,4 +1,4 @@
-#Pretty Valid v0.4.2
+# Pretty Valid v0.4.2
 
 Customize/Pretify the HTML5 Constraint Validation dialogues using jQuery/CSS.
 
@@ -12,23 +12,23 @@ If any invalid input exists
 - [x] a CSS class is applied to those inputs
 Else the submit action takes place.
 
-####Google reCAPTCHA v3
-If a site_key is set Pretty Valid will automatically do the frontend integration of reCAPTCHA v3 on your app.
+#### [Google reCAPTCHA](https://developers.google.com/recaptcha/)
+If a reCAPTCHA site_key is set Pretty Valid will automatically do the frontend integration of reCAPTCHA v3 on your app.
 
-####AJAX
+#### AJAX
 Submit the form using jQuery AJAX by setting your backend url
 
-##How to use:
+## How to use:
 
 Include the required files in your HTML5 document:
 
-####JS
+#### JS
 ```javascript
 <script src="path/to/jquery.min.js"></script>
 <script src="path/to/pretty-valid.min.js"></script>
 ```
 
-####CSS
+#### CSS
 ```css
 <link rel="stylesheet" href="css/pretty-valid.min.css">
 ```

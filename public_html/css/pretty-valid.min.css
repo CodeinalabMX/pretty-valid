@@ -1,2 +1,79 @@
-/*! PrettyValid v0.4.2 *//*! Reset */*{box-sizing:border-box}/*! Form elements */.is-invalid{border:1px solid red}[type=checkbox].is-invalid,[type=radio].is-invalid{box-shadow:0 0 0 1px red}/*! * Notification */.notification{position:relative;z-index:10001;display:none;width:100%;height:auto;padding:20px;border:1px solid #1a1a1a;background-color:#fbfbfb;border-radius:0}.check-notification:checked+.notification{display:none}.notification.fade,.notification.slide{position:fixed;width:98vw;top:1vw;left:1vw;transition:all .4s ease-out}.check-notification.slide:checked+.notification.slide{display:block;top:-25vw}.notification.fade{opacity:1}.check-notification.fade:checked+.notification.fade{display:block;opacity:0;visibility:hidden}.notification label{cursor:pointer}.information{color:#00529b;border-color:#00529b;background-color:#99cfff}.success{color:#4f8a10;border-color:#4f8a10;background-color:#cdf4a4}.warning{color:#9f6000;border-color:#9f6000;background-color:#ffd699}.error{color:#d8000c;border-color:#d8000c;background-color:#ff999e}
+/*! PrettyValid v0.4.2 */
+/**
+ * CSS Stylesheet for: PrettyValid
+ *
+ * Author: hEy @ codeinalab.com
+ *
+ * TOC:
+ * 
+ * Reset
+ * Color scheme
+ * 
+ * 
+ * @todo Add each module/section needed
+ * 
+ */
+/*! Reset */
+* {
+  box-sizing: border-box;
+}
+/*! Form elements */
+.is-invalid {
+	border: 1px solid red;
+}
+[type=checkbox].is-invalid, 
+[type=radio].is-invalid {
+  box-shadow: 0 0 0 1px red;
+}
+/*! * Notification */
+.notification {
+  position: relative;
+  z-index: 10001;
+  display: none;
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  /*cursor: pointer;*/
+  border: 1px solid #1a1a1a; 
+  background-color: rgb(251, 251, 251);
+  border-radius: 0;
+  transition: all .4s ease-out;
+}
+.notification:not(:empty) {
+  
+}
+.check-notification:checked + .notification {
+  display: none;
+}
+.notification.slide, 
+.notification.fade {
+  position: fixed;
+  width: 98vw;
+  top: 1vw;
+  left: 1vw;
+}
+.notification label {
+  cursor: pointer;
+}
+.information {
+  color: #00529b;
+  border-color: #00529b;
+  background-color: rgb(153, 207, 255);
+}
+.success {
+  color: #4f8a10;
+  border-color: #4f8a10;
+  background-color: rgb(205, 244, 164);
+}
+.warning {
+  color: #9f6000;
+  border-color: #9f6000;
+  background-color: rgb(255, 214, 153);
+}
+.error {
+  color: #d8000c;
+  border-color: #d8000c;
+  background-color: rgb(255, 153, 158);
+}
+
 /*# sourceMappingURL=pretty-valid.min.css.map*/

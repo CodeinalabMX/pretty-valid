@@ -1,6 +1,6 @@
 module.exports = {
 
-  optimize: true,
+  optimize: false,
 
   modules: {
     wrapper: false,

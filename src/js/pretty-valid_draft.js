@@ -107,6 +107,23 @@
 
     };
 
+    var validity_support = function () {
+      var input = document.createElement('input');
+      return (
+              'validity' in input && 
+              'badInput' in input.validity && 
+              'patternMismatch' in input.validity && 
+              'rangeOverflow' in input.validity && 
+              'rangeUnderflow' in input.validity && 
+              'stepMismatch' in input.validity && 
+              'tooLong' in input.validity && 
+              'tooShort' in input.validity && 
+              'typeMismatch' in input.validity && 
+              'valid' in input.validity && 
+              'valueMissing' in input.validity
+              );
+    };
+
 
     var validate = function()
     {
@@ -116,8 +133,9 @@
       items = $.grep(items, function(n)
       {
         $(n).removeClass(settings.input_invalid_class);
-        /* Keep items when validity.valid is false */
-        return !n.validity.valid;
+        
+        return item_validation(n);
+        
       });
 
       (items.length) ? notification_show(settings.notification.invalid_class, 
@@ -247,9 +265,24 @@
 
     var item_validation = function(item)
     {
+      if (validity_support()) {
+        return item.validity.valid;
+      } else {
+        //
+      }
       return item[0].validity.valid;
       item.addClass(settings.notification.invalid_class);
     }
+
+    var custom_validation = {
+      text: function(item) {
+        return /\w+/.test(item.val());  
+      },
+      password: function() {
+        /* code */
+      }
+
+    };
 
 
     //* Plugin's public functions

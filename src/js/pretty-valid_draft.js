@@ -31,7 +31,7 @@
      * To avoid scope issues, assign 'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
     var this_plugin = this; /* This is also the element attached to */
-    var items, item, auto_hide;
+    var items, item, item_type, item_value, auto_hide, result, attr_pattern, attr_minlength, attr_maxlength, attr_min, attr_max;
     /* Use the default jQuery.extend utility to merge
      * default settings with with the ones set per instance.
      * This is the easiest way to have default options.
@@ -55,9 +55,9 @@
         // @todo show/hide effect should be generated from notification.effect setting 
         show_effect: 'fadeIn', // fadeIn/slideDown
         hide_effect: 'fadeOut', // fadeOut/slideUp
+        input_invalid_class: 'is-invalid', // String
+        input_valid_class: 'is-valid', // String
       },
-      input_invalid_class: 'is-invalid', // String
-      input_valid_class: 'is-valid', // String
       /* Enable send form data via ajax */
       ajax: {
         url: '', // String
@@ -124,25 +124,45 @@
               );
     };
 
-
     var validate = function()
     {
 
       /* Get all required elements and check for validity */
       items = this_plugin.find(':required');
-      items = $.grep(items, function(n)
+      items = $.grep(items, function(item)
       {
-        $(n).removeClass(settings.input_invalid_class);
+        $(item).removeClass(settings.input_invalid_class + ' ' + settings.input_invalid_class);
         
-        return item_validation(n);
+        return item_validation(item);
         
       });
 
       (items.length) ? notification_show(settings.notification.invalid_class, 
-        settings.notification.message.invalid) : submit();
+                                         settings.notification.message.invalid) : submit();
 
     }
 
+    var item_validation = function(item)
+    {
+
+      if (!validity_support()) {
+
+        result = item.validity.valid;
+
+      } else {
+        item_type = $(item)[0]['type'].replace('-', '');
+        console.log($(item)[0]);
+        result = custom_validation[item_type](item);
+      
+      }
+
+      (result) ? $(item).addClass(settings.notification.input_valid_class) 
+               : $(item).addClass(settings.notification.input_invalid_class);
+
+      return result;
+      //console.log(item);
+      //$(item).addClass(settings.notification.input_invalid_class);
+    }
 
     var g_recaptcha_init = function()
     {
@@ -262,24 +282,39 @@
 
     }
 
-
-    var item_validation = function(item)
-    {
-      if (validity_support()) {
-        return item.validity.valid;
-      } else {
-        //
-      }
-      return item[0].validity.valid;
-      item.addClass(settings.notification.invalid_class);
-    }
-
     var custom_validation = {
+
       text: function(item) {
-        return /\w+/.test(item.val());  
+        item_value = $(item).val();
+
+        //pattern minlength maxlength
+        return /\w+/.test(item_value);  
+      },
+      email: function(item) {
+        item_value = $(item).val();
+        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(item_value);
+      },
+      textarea: function(item) {
+        item_value = $(item).val();
+        return /\w+/.test(item_value);
+      },
+      selectone: function(item) {
+        return false;
+      },
+      file: function(item) {
+        //acept, multiple
+        return false;
+      },
+      checkbox: function(item) {
+
+      },
+      radio: function(item) {
+        return false;
       },
       password: function() {
-        /* code */
+        
+        item_value = $(item).val();
+        return false;
       }
 
     };

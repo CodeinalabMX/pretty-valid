@@ -13,7 +13,7 @@
     "clean-css-brunch": "^2.10.0",
     "jquery": "^3.4.1",
     "terser-brunch": "^3.0.0",
-    "version-bump-prompt": "^5.0.1"
+    "version-bump-prompt": "^5.0.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

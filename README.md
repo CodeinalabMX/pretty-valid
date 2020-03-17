@@ -1,4 +1,4 @@
-# Pretty Valid v0.4.2
+# Pretty Valid v0.5.1
 
 Customize/Pretify the HTML5 Constraint Validation dialogues using jQuery/CSS.
 

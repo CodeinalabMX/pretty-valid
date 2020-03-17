@@ -1,7 +1,7 @@
-/*! Pretty Valid v0.4.2 http://codeinalabmx.github.io/pretty-valid */
+/*! Pretty Valid v0.5.1 http://codeinalabmx.github.io/pretty-valid */
 
 /*
- * Pretty Valid v0.4.2
+ * Pretty Valid v0.5.1
  *
  * Custom HTML5 form validation dialogues
  * http://codeinalabmx.github.io/pretty-valid

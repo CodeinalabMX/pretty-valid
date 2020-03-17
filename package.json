@@ -1,6 +1,6 @@
 {
   "name": "pretty-valid",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Custom HTML5 form validation dialogues",
   "main": "index.js",
   "directories": {
@@ -18,7 +18,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "brunch": "brunch",
-    "vbump": "bump package.json package-lock.json readme.md src/css/pretty-valid_draft.css src/js/pretty-valid_draft.js"
+    "vbump": "bump package.json package-lock.json readme.md src/css/pretty-valid_draft.css src/js/pretty-valid_draft.js --commit"
   },
   "repository": {
     "type": "git",

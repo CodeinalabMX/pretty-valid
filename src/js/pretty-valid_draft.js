@@ -286,7 +286,7 @@
 
       text: function(item) {
         item_value = $(item).val();
-
+        attr_maxlength = $(item).attr('maxLength') || null;
         //pattern minlength maxlength
         return /\w+/.test(item_value);  
       },
@@ -306,10 +306,10 @@
         return false;
       },
       checkbox: function(item) {
-
+        return $(item).is(':checked')
       },
       radio: function(item) {
-        return false;
+        return $(item).is(':checked');
       },
       password: function() {
         

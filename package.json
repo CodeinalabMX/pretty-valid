@@ -11,7 +11,7 @@
   "devDependencies": {
     "brunch": "^3.0.0",
     "clean-css-brunch": "^3.0.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "terser-brunch": "^3.0.0",
     "version-bump-prompt": "^5.0.7"
   },

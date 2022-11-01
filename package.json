@@ -1,5 +1,5 @@
 {
-  "name": "pretty-valid",
+  "name": "@codeinalabmx/pretty-valid",
   "version": "0.5.1",
   "description": "Custom HTML5 form validation dialogues",
   "main": "index.js",
@@ -7,18 +7,19 @@
     "doc": "docs",
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "jquery": "^3.6.1"
+  },
   "devDependencies": {
-    "brunch": "^3.0.0",
+    "auto-reload-brunch": "^3.0.1",
+    "brunch": "^4.0.1",
     "clean-css-brunch": "^3.0.0",
-    "jquery": "^3.4.1",
-    "terser-brunch": "^3.0.0",
-    "version-bump-prompt": "^5.0.7"
+    "terser-brunch": "^4.1.0",
+    "version-bump-prompt": "^6.0.1"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "brunch": "brunch",
-    "vbump": "bump package.json package-lock.json README.md src/css/pretty-valid_draft.css src/js/pretty-valid_draft.js --commit"
+    "vbump": "bump package.json package-lock.json composer.json README.md src/css/pretty-valid_draft.css src/js/pretty-valid_draft.js --commit"
   },
   "repository": {
     "type": "git",
@@ -27,10 +28,9 @@
   "keywords": [
     "jQuery",
     "HTML5",
-    "Validation",
-    "CSS"
+    "Validation"
   ],
-  "author": "hEy",
+  "author": "A59327424",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/CodeinalabMX/pretty-valid/issues"

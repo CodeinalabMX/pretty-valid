@@ -1,4 +1,5 @@
+.DS_Store
+._*
 vendor
 node_modules
 composer
-public_html

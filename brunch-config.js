@@ -10,8 +10,6 @@ module.exports = {
   plugins: {
     
     terser: {
-      /* Use ignored to skip files from process
-       * keep in mind that terser runs on files created by joinTo */
       //* ignored: /[regex]/,
       output: {
         comments: /^!/
@@ -27,7 +25,7 @@ module.exports = {
   },
 
 	paths: {
-  	public: 'public_html',
+  	public: 'dist',
   	watched: ['src']
 	},
 
@@ -38,7 +36,7 @@ module.exports = {
         'js/pretty-valid.min.js': [
           'src/js/pretty-valid_draft.js'
         ], 
-        'js/main.min.js': [
+        '../test/js/main.min.js': [
           'src/js/main_draft.js'
         ]
     	}
@@ -55,6 +53,15 @@ module.exports = {
   },
 
   npm: {
+
+    globals: {
+      //$: 'jquery',
+      //jQuery: 'jquery'
+    },
+
+    styles: {
+      //'node_modules/library_folder': ['css/file.css']
+    }
 
   }
 

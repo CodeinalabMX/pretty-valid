@@ -2,29 +2,39 @@
 /**
  * CSS Stylesheet for: PrettyValid
  *
- * Author: hEy @ codeinalab.com
+ * Author: A59327424 @ codeinalab.com
  *
  * TOC:
  * 
  * Reset
+ * Form elements
+ * Notification
  * Color scheme
  * 
- * 
- * @todo Add each module/section needed
- * 
  */
+
+
 /*! Reset */
 * {
   box-sizing: border-box;
 }
+
+
 /*! Form elements */
+.is-valid, 
+input:required:valid
+{
+  border: 1px solid #4f8a10;
+}
 .is-invalid {
-	border: 1px solid red;
+  border: 1px solid #d8000c;
 }
 [type=checkbox].is-invalid, 
 [type=radio].is-invalid {
   box-shadow: 0 0 0 1px red;
 }
+
+
 /*! * Notification */
 .notification {
   position: relative;
@@ -38,6 +48,7 @@
   background-color: rgb(251, 251, 251);
   border-radius: 0;
   transition: all .4s ease-out;
+  cursor: pointer;
 }
 .notification:not(:empty) {
   
@@ -48,13 +59,13 @@
 .notification.slide, 
 .notification.fade {
   position: fixed;
-  width: 98vw;
-  top: 1vw;
-  left: 1vw;
+  width: 98%;
+  top: 1%;
+  left: 1%;
 }
-.notification label {
-  cursor: pointer;
-}
+
+
+/*! Color scheme */
 .information {
   color: #00529b;
   border-color: #00529b;

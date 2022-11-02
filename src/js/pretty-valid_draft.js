@@ -6,7 +6,7 @@
  * Custom HTML5 form validation dialogues
  * http://codeinalabmx.github.io/pretty-valid
  * Licence: MIT
- * Author: hEy @ codeinalab.com
+ * Author: A59327424 @ codeinalab.com
  * 
  * Reference:
  *
@@ -31,7 +31,8 @@
      * To avoid scope issues, assign 'this' to 'this_plugin'
      * to reference this class from internal events and functions. */
     var this_plugin = this; /* This is also the element attached to */
-    var items, item, item_type, item_value, auto_hide, result, attr_pattern, attr_minlength, attr_maxlength, attr_min, attr_max;
+    var items, item, item_type, item_value, auto_hide, result, attr_pattern, 
+        attr_minlength, attr_maxlength, attr_min, attr_max;
     /* Use the default jQuery.extend utility to merge
      * default settings with with the ones set per instance.
      * This is the easiest way to have default options.
@@ -103,8 +104,8 @@
       if (settings.g_recaptcha.site_key) {
         g_recaptcha_init();
       }
+      console.log('Pretty valid initialized: bind validate function to submit event, init recaptcha if site key isset.');
       return this_plugin;
-
     };
 
     var validity_support = function () {
@@ -151,17 +152,18 @@
 
       } else {
         item_type = $(item)[0]['type'].replace('-', '');
-        console.log($(item)[0]);
         result = custom_validation[item_type](item);
-      
+        if (!result) {
+          if ($(item).data('hint')) {
+            $(item).after('<span class="hint">' + $(item).data('hint') + '</span>');
+          }
+        }
       }
 
-      (result) ? $(item).addClass(settings.notification.input_valid_class) 
-               : $(item).addClass(settings.notification.input_invalid_class);
+      (result) ? $(item).addClass(settings.notification.input_valid_class).removeClass(settings.notification.input_invalid_class) 
+               : $(item).addClass(settings.notification.input_invalid_class).removeClass(settings.notification.input_valid_class);
 
       return result;
-      //console.log(item);
-      //$(item).addClass(settings.notification.input_invalid_class);
     }
 
     var g_recaptcha_init = function()
@@ -185,12 +187,11 @@
             'size': 'invisible',
             'badge': settings.g_recaptcha.badge,
           });
-          grecaptcha.execute(g_recaptcha_id, {action: settings.g_recaptcha.action}).then(function(token)
-          {                       
-            $('#g-recaptcha-response').val(token);
-          });
+          //* grecaptcha.execute is called on submit action, as reCAPTCHA tokens expire after two minutes.
+          //* ref. https://developers.google.com/recaptcha/docs/v3
         });
       });
+      console.log('reCaptcha initialized: add recaptcha script tag, render badge.');
 
     }
     
@@ -198,18 +199,23 @@
     var submit = function()
     {
 
-      /* Detach the previous .on event handler with .off */
-      (settings.ajax.url) ? submit_ajax() : this_plugin.off('submit').submit();
-    
+      grecaptcha.execute(g_recaptcha_id, {action: settings.g_recaptcha.action}).then(function(token)
+      {                       
+        $('#g-recaptcha-response').val(token);
+        /* Detach the previous .on event handler with .off */
+        (settings.ajax.url) ? submit_ajax() : this_plugin.off('submit').submit();
+      });
+      console.log('reCaptcha execute, then submit.');
     }
 
     var submit_ajax = function()
     {
-      
+      let serialized_data = this_plugin.serializeArray();
+      serialized_data.push({name: 'is-ajax', value: true});
       $.ajax({
         type: settings.ajax.method,
         url: settings.ajax.url,
-        data: this_plugin.serializeArray(),
+        data: serialized_data,
         dataType: 'json',
         success: function(data)
         {
